@@ -1,7 +1,6 @@
 {
     "manifest_version": 3,
-    "name": "DnD Spell Search",
-    "key": "manifest@v3.com",
+    "name": "Compendium for DnD 5e",
     "version": "1.0",
     "permissions": ["activeTab"],
     "host_permissions": ["https://www.dnd5eapi.co/"],
