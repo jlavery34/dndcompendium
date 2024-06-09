@@ -300,3 +300,60 @@ async function findFeatures(name) {
         console.error('Error:', error);
     }
 }
+
+//functions to output based exactly on the endpoint's available descriptors
+
+//ability-scores
+
+
+//classes
+
+async function outputClasses(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); //class isn't allowed as a var name
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.spellcasting && data.spellcasting.level) {
+                var p = document.createElement('p');
+                p.textContent = data.spellcasting.level;
+                resultDiv.appendChild(p);
+            }
+            if (data.hit_die){
+                var p = document.createElement('p');
+                p.innerHTML = "<b>Hit die:</b> " + data.hit_die;
+                resultDiv.appendChild(p);
+            }
+            if (data.proficiency_choices && data.proficiency_choices[0] && data.proficiency_choices[0].desc){
+                var p = document.createElement('p');
+                p.innerHTML = "<b>Proficiency choices:</b> " + data.proficiency_choices[0].desc;
+                resultDiv.appendChild(p);
+            }
+            if (data.proficiencies){
+                let profs = '';
+                for (var i =0; i< data.proficiencies.length; i++){
+                    profs += data.proficiencies[i].name;
+                    profs += "<br>";
+                }
+                if(profs){
+                    var p =document.createElement('p');
+                    p.innerHTML = "<b>Proficiencies:</b> " + profs; //to get the line breaks
+                    resultDiv.appendChild(p);
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
