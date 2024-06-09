@@ -187,120 +187,6 @@ async function getType(result) {
 
 }
 
-
-
-async function findSpells(name) {
-    try {
-        const response = await fetch('https://www.dnd5eapi.co/api/spells/' + name);
-        const spell = await response.json();
-        var resultDiv = document.getElementById('result');
-        while (resultDiv.firstChild) {
-            resultDiv.removeChild(resultDiv.firstChild);
-        }
-        if (spell.name) {
-            var h2 = document.createElement('h2');
-            h2.textContent = spell.name;
-            var p = document.createElement('p');
-            if (spell.desc) {
-                p.textContent = spell.desc[0];
-            } else {
-                p.textContent = 'Description not available';
-            }
-            resultDiv.appendChild(h2);
-            resultDiv.appendChild(p);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function findMonsters(name) {
-    try {
-        const response = await fetch('https://www.dnd5eapi.co/api/monsters/' + name);
-        const monster = await response.json();
-        var resultDiv = document.getElementById('result');
-        while (resultDiv.firstChild) {
-            resultDiv.removeChild(resultDiv.firstChild);
-        }
-        if (monster.name) {
-            var h2 = document.createElement('h2');
-            h2.textContent = monster.name;
-            var p = document.createElement('p');
-            if (monster.size) {
-                p.textContent = 'Size: ' + monster.size;
-            } else {
-                p.textContent = 'Size not available';
-            }
-            resultDiv.appendChild(h2);
-            resultDiv.appendChild(p);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function findClasses(name) {
-    try {
-        const response = await fetch('https://www.dnd5eapi.co/api/classes/' + name);
-        const classes = await response.json(); //class not allowed as const name
-        var resultDiv = document.getElementById('result');
-        while (resultDiv.firstChild) {
-            resultDiv.removeChild(resultDiv.firstChild);
-        }
-        if (classes.name) {
-            var h2 = document.createElement('h2');
-            h2.textContent = classes.name;
-            var p = document.createElement('p');
-            if (classes.desc) {
-                p.textContent = classes.desc[0];
-            } else {
-                p.textContent = 'Description not available';
-            }
-            resultDiv.appendChild(h2);
-            resultDiv.appendChild(p);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
-async function findFeatures(name) {
-    try {
-        const response = await fetch('https://www.dnd5eapi.co/api/features/' + name);
-        const feat = await response.json();
-        var resultDiv = document.getElementById('result');
-        while (resultDiv.firstChild) {
-            resultDiv.removeChild(resultDiv.firstChild);
-        }
-        if (feat.name) {
-            var h2 = document.createElement('h2');
-            h2.textContent = feat.name;
-            var p = document.createElement('p');
-            if (feat.desc) {
-                p.textContent = feat.desc[0];
-            } else {
-                p.textContent = 'Description not available';
-            }
-            resultDiv.appendChild(h2);
-            resultDiv.appendChild(p);
-            return true;
-        } else {
-            return false;
-        }
-    } catch (error) {
-        console.error('Error:', error);
-    }
-}
-
 //functions to output based exactly on the endpoint's available descriptors
 
 //ability-scores
@@ -367,6 +253,80 @@ async function outputClasses(result) { //code gore
             if (data.spellcasting) {
                 var p = document.createElement('p');
                 p.textContent = "Spellcasting ability: " + data.spellcasting.spellcasting_ability.name;
+                resultDiv.appendChild(p);
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
+async function outputSpells(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); //class isn't allowed as a var name
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                var p = document.createElement('p');
+                p.textContent = data.desc; 
+                resultDiv.appendChild(p);
+            }
+            if (data.higher_level) {
+                var p = document.createElement('p');
+                p.textContent = data.higher_level[0]; 
+                resultDiv.appendChild(p);
+            }
+            if (data.range) {
+                var p = document.createElement('p');
+                p.textContent = "Range: " + data.range;
+                resultDiv.appendChild(p);
+            }
+            if (data.area_of_effect) {
+                var p = document.createElement('p');
+                p.textContent = "Area of effect: " + data.area_of_effect.size + "ft " + data.area_of_effect.type;
+                resultDiv.appendChild(p);
+            }
+            if (data.components) {
+                let components = '';
+                for (var i = 0; i < data.components.length; i++) {
+                    components += data.components[i] + " ";
+                }
+                if (components) {
+                    var p = document.createElement('p');
+                    p.textContent = "Components: " + components; //to get the line breaks
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.casting_time) {
+                var p = document.createElement('p');
+                p.textContent = "Cast time: " + data.casting_time;
+                resultDiv.appendChild(p);
+            }
+            if (data.duration) {
+                var p = document.createElement('p');
+                p.textContent = "Duration: " + data.duration;
+                resultDiv.appendChild(p);
+            }
+            if (data.level) {
+                var p = document.createElement('p');
+                p.textContent = "Level: " + data.level;
+                resultDiv.appendChild(p);
+            }
+            if(data.concentration == true){
+                var p = document.createElement('p');
+                p.textContent = "Requires concentration";
                 resultDiv.appendChild(p);
             }
         } else {
