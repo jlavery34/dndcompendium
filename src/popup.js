@@ -60,8 +60,8 @@ resultDiv.innerText = '';
 var h2 = document.createTextNode(result);
 resultDiv.appendChild(h2);*/
 
-function sortResult(result, type){
-    switch(type){
+function sortResult(result, type) {
+    switch (type) {
         case "/ability-scores/":
             outputAbilityScores(result);
             break;
@@ -308,7 +308,7 @@ async function findFeatures(name) {
 
 //classes
 
-async function outputClasses(result) {
+async function outputClasses(result) { //code gore
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
         const data = await response.json(); //class isn't allowed as a var name
@@ -320,32 +320,54 @@ async function outputClasses(result) {
             var h2 = document.createElement('h2');
             h2.textContent = data.name;
             resultDiv.appendChild(h2);
-            if (data.spellcasting && data.spellcasting.level) {
+            if (data.hit_die) {
                 var p = document.createElement('p');
-                p.textContent = data.spellcasting.level;
+                p.textContent = "Hit die: " + data.hit_die; 
                 resultDiv.appendChild(p);
             }
-            if (data.hit_die){
+            if (data.proficiency_choices && data.proficiency_choices[0] && data.proficiency_choices[0].desc) {
                 var p = document.createElement('p');
-                p.innerHTML = "<b>Hit die:</b> " + data.hit_die;
+                p.textContent = "Proficiency choices: " + data.proficiency_choices[0].desc;
                 resultDiv.appendChild(p);
             }
-            if (data.proficiency_choices && data.proficiency_choices[0] && data.proficiency_choices[0].desc){
-                var p = document.createElement('p');
-                p.innerHTML = "<b>Proficiency choices:</b> " + data.proficiency_choices[0].desc;
-                resultDiv.appendChild(p);
-            }
-            if (data.proficiencies){
+            if (data.proficiencies) {
                 let profs = '';
-                for (var i =0; i< data.proficiencies.length; i++){
-                    profs += data.proficiencies[i].name;
-                    profs += "<br>";
+                for (var i = 0; i < data.proficiencies.length; i++) {
+                    profs += data.proficiencies[i].name + " ";
                 }
-                if(profs){
-                    var p =document.createElement('p');
-                    p.innerHTML = "<b>Proficiencies:</b> " + profs; //to get the line breaks
+                if (profs) {
+                    var p = document.createElement('p');
+                    p.textContent = "Proficiencies: " + profs; //to get the line breaks
                     resultDiv.appendChild(p);
                 }
+            }
+            if (data.starting_equipment) {
+                let stEquip = '';
+                for (var i = 0; i < data.starting_equipment.length; i++) {
+                    stEquip += data.starting_equipment[i].quantity + " " + data.starting_equipment[i].equipment.name + " ";
+                }
+                if (stEquip) {
+                    var p = document.createElement('p');
+                    p.textContent = "Starting equipment: " + stEquip;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.starting_equipment_options){
+                let stEquipOpt = '';
+                for (var i = 0; i < data.starting_equipment_options.length; i++){
+                    stEquipOpt += data.starting_equipment_options[i].choose + " of " + data.starting_equipment_options[i].desc; //should look like "1 of rapier, longsword, or any simple weapon", for example"
+                    stEquipOpt += " ";
+                }
+                if (stEquipOpt){
+                    var p = document.createElement('p');
+                    p.textContent = "Starting options: " + stEquipOpt;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.spellcasting) {
+                var p = document.createElement('p');
+                p.textContent = "Spellcasting ability: " + data.spellcasting.spellcasting_ability.name;
+                resultDiv.appendChild(p);
             }
         } else {
             var h2 = document.createElement('h2');
