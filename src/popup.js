@@ -28,6 +28,21 @@ const endpointTypes = [
 document.getElementById('submit').addEventListener('click', async function () {
     var name = document.getElementById('search').value.replace(/ /g, '-'); //replaces any spaces with hyphens for the urls
     var query = name.toLowerCase(); //convert to lower case to match the json
+
+    //each of these are stored by their shorthand name, so must convert a search exactly of the longhand name to shorthand
+    if(query == "charisma")
+        query = "cha";
+    if(query == "wisdom")
+        query = "wis";
+    if(query == "intelligence")
+        query = "int";
+    if (query == "strength")
+        query = "str";
+    if (query == "constitution")
+        query = "con";
+    if(query == "dexterity")
+        query = "dex";
+
     let regex = new RegExp("^/api/.*/" + query + "$"); //regexp to match with the urls e.g. it'll be api/(any endpoint)/(user query) for a match
     var result = await findMatch(regex) //find an exact match with the regex
 
@@ -629,7 +644,6 @@ async function outputSubraces(result) {
                 p.textContent = data.desc;
                 resultDiv.appendChild(p);
             }
-            
             if (data.language_options) {
                 let lang = '';
                 for (var i = 0; i < data.language_options.from.options.length; i++) {
@@ -686,8 +700,53 @@ async function outputSubraces(result) {
 
 }
 
-
 // /ability-scores/"
+async function outputAbilityScores(result) { 
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); 
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.full_name) { //full_name because name is e.g. cha, wis, con
+            var h2 = document.createElement('h2');
+            h2.textContent = data.full_name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                let descrip = '';
+                for (var i = 0; i < data.desc.length; i++) {
+                    descrip += data.desc[i] + " ";
+                }
+                if (descrip) {
+                    var p = document.createElement('p');
+                    p.textContent =  descrip;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.skills) {
+                let skill = '';
+                for (var i = 0; i < data.skills.length; i++) {
+                    skill += data.skills[i].name + " | ";
+                }
+                if (skill) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Skills: " + skill;
+                    resultDiv.appendChild(p);
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
+
 //"/alignments/",
 //"/backgrounds/",
 //"/conditions/",
