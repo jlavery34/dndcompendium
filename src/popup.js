@@ -920,7 +920,7 @@ async function outputEquipment(result) {
                     var span = document.createElement('span');
                     span.textContent = "Normal Throw range: " + data.throw_range.normal + " | ";
                     span.textContent += "Long Throw range: " + data.throw_range.long + " | ";
-                    div.appendChild(span);
+                    div.appendChild(span);sylvan
                 }
                 if (data.damage) {
                     var span = document.createElement('span');
@@ -984,12 +984,144 @@ async function outputEquipment(result) {
 
 }
 
-
-
-
-//"/equipment-categories/",
 //"/languages/",
+
+async function outputLanguages(result) { 
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); 
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) { //full_name because name is e.g. cha, wis, con
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.typical_speakers) {
+                let typ = '';
+                for (var i = 0; i < data.typical_speakers.length; i++) {
+                    typ += data.typical_speakers[i] + " ";
+                }
+                if (typ) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Typical speakers: " + typ;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.desc){
+                var p = document.createElement('p');
+                p.textContent = data.desc;
+                resultDiv.appendChild(p);
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
 //"/magic-items/",
+//oh dear
+
+async function outputMagicItems(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.equipment_category.index == "weapon"){
+                var div = document.createElement('div');
+                var equip = data.equipment_category;
+                if (equip.name) {
+                    var span = document.createElement('span');
+                    span.textContent = data.name + " | ";
+                    div.appendChild(span);
+                }
+                if (data.weapon_category) {
+                    var span = document.createElement('span');
+                    span.textContent = "Weapon category: " + data.weapon_category + " | ";
+                    div.appendChild(span);
+                }
+                if (data.weapon_range) {
+                    var span = document.createElement('span');
+                    span.textContent = "Range: " + data.weapon_range + " | ";
+                    div.appendChild(span);
+                }
+                if (data.throw_range) {
+                    var span = document.createElement('span');
+                    span.textContent = "Normal Throw range: " + data.throw_range.normal + " | ";
+                    span.textContent += "Long Throw range: " + data.throw_range.long + " | ";
+                    div.appendChild(span);sylvan
+                }
+                if (data.damage) {
+                    var span = document.createElement('span');
+                    span.textContent = "Damage: " + data.damage.damage_dice + " " + data.damage.damage_type.name + " | ";
+                    div.appendChild(span);
+                }
+                
+                resultDiv.appendChild(div);
+            }
+            if (data.equipment_category.index == "armor"){
+                var div = document.createElement('div');
+                if(data.armor_category){
+                var p = document.createElement('p');
+                p.textContent = "Armor category: " + data.armor_category;
+                resultDiv.appendChild(p);
+                }
+                if (data.armor_class){
+                    var span = document.createElement('span');
+                    span.textContent = "Base: " + data.armor_class.base;
+                    if(data.armor_class.dex_bonus)
+                        span.textContent += " + Dex modifier";
+                    if (data.str_minimum > 0)
+                        span.textContent += " | Str minimum: " + data.str_minimum;
+                    if (data.stealth_disadvantage == false)
+                        span.textContent += " | Disadvantage on stealth";
+                    div.appendChild(span);
+                }
+                resultDiv.appendChild(div);
+            }
+
+            if (data.desc) {
+                for (var i = 0; i < data.desc.length; i++) {
+                    var p = document.createElement('p');
+                    p.textContent =  data.desc[i];
+                    resultDiv.appendChild(p);
+                }
+            }
+            if(data.cost){
+                var p = document.createElement('p');
+                p.textContent = "Cost: " + data.cost.quantity + data.cost.unit;
+                resultDiv.appendChild(p);
+            }
+            if (data.weight){
+                var p = document.createElement('p');
+                p.textContent = "Weight: " + data.weight + "lbs";
+                resultDiv.appendChild(p);
+            }           
+
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
 //"/magic-schools/",
 //"/monsters/",
 //"/proficiencies/",
