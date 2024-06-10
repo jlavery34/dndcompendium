@@ -31,22 +31,22 @@ document.getElementById('submit').addEventListener('click', async function () {
 
     //hard-coding some corrections for search mistakes 
     //each of these are stored by their shorthand name, so must convert a search exactly of the longhand name to shorthand
-    if(query == "charisma")
+    if (query == "charisma")
         query = "cha";
-    if(query == "wisdom")
+    if (query == "wisdom")
         query = "wis";
-    if(query == "intelligence")
+    if (query == "intelligence")
         query = "int";
     if (query == "strength")
         query = "str";
     if (query == "constitution")
         query = "con";
-    if(query == "dexterity")
+    if (query == "dexterity")
         query = "dex";
     //turn exhausted -> exhaustion and en-gb paralysed to en-us paralyzed
     if (query == "exhausted")
         query = "exhaustion";
-    if(query == "paralysed" || query == "paralysis")
+    if (query == "paralysed" || query == "paralysis")
         query = "paralyzed";
 
     let regex = new RegExp("^/api/.*/" + query + "$"); //regexp to match with the urls e.g. it'll be api/(any endpoint)/(user query) for a match
@@ -435,10 +435,10 @@ async function outputFeats(result) { //there's only one feat in the SRD, grapple
 }
 
 //"/features/",
-async function outputFeatures(result) { 
+async function outputFeatures(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -459,7 +459,7 @@ async function outputFeatures(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip; //to get the line breaks
+                    p.textContent = descrip; //to get the line breaks
                     resultDiv.appendChild(p);
                 }
             }
@@ -480,10 +480,10 @@ async function outputFeatures(result) {
 }
 
 //"/traits/",
-async function outputTraits(result) { 
+async function outputTraits(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -499,7 +499,7 @@ async function outputTraits(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
@@ -510,7 +510,7 @@ async function outputTraits(result) {
                 }
                 if (race) {
                     var p = document.createElement('p');
-                    p.textContent =  "Races: " + race;
+                    p.textContent = "Races: " + race;
                     resultDiv.appendChild(p);
                 }
             }
@@ -580,7 +580,7 @@ async function outputRaces(result) {
                 }
                 if (lang) {
                     var p = document.createElement('p');
-                    p.textContent =  "Languages: " + lang;
+                    p.textContent = "Languages: " + lang;
                     resultDiv.appendChild(p);
                 }
             }
@@ -602,7 +602,7 @@ async function outputRaces(result) {
                 }
                 if (trt) {
                     var p = document.createElement('p');
-                    p.textContent =  "Traits: " + trt;
+                    p.textContent = "Traits: " + trt;
                     resultDiv.appendChild(p);
                 }
             }
@@ -613,11 +613,11 @@ async function outputRaces(result) {
                 }
                 if (sbr) {
                     var p = document.createElement('p');
-                    p.textContent =  "Subraces: " + sbr;
+                    p.textContent = "Subraces: " + sbr;
                     resultDiv.appendChild(p);
                 }
             }
-            
+
 
         } else {
             var h2 = document.createElement('h2');
@@ -655,7 +655,7 @@ async function outputSubraces(result) {
                 }
                 if (lang) {
                     var p = document.createElement('p');
-                    p.textContent =  "Languages: Choose " + data.language_options.choose + " from " + lang;
+                    p.textContent = "Languages: Choose " + data.language_options.choose + " from " + lang;
                     resultDiv.appendChild(p);
                 }
             }
@@ -666,32 +666,32 @@ async function outputSubraces(result) {
                 }
                 if (trt) {
                     var p = document.createElement('p');
-                    p.textContent =  "Traits: " + trt;
+                    p.textContent = "Traits: " + trt;
                     resultDiv.appendChild(p);
                 }
             }
             if (data.starting_proficiencies) {
                 let strt = '';
                 for (var i = 0; i < data.starting_proficiencies.length; i++) {
-                    strt += data.starting_proficiencies[i].name + " | "; 
+                    strt += data.starting_proficiencies[i].name + " | ";
                 }
                 if (strt) {
                     var p = document.createElement('p');
-                    p.textContent =  "Proficiencies: " + strt;
+                    p.textContent = "Proficiencies: " + strt;
                     resultDiv.appendChild(p);
                 }
             }
             if (data.ability_bonuses) {
                 let abl = '';
                 for (var i = 0; i < data.ability_bonuses.length; i++) {
-                    abl += "+" + data.ability_bonuses[i].bonus + " to " + data.ability_bonuses[i].ability_score.name + " | "; 
+                    abl += "+" + data.ability_bonuses[i].bonus + " to " + data.ability_bonuses[i].ability_score.name + " | ";
                 }
                 if (abl) {
                     var p = document.createElement('p');
-                    p.textContent =  "Ability bonus: " + abl;
+                    p.textContent = "Ability bonus: " + abl;
                     resultDiv.appendChild(p);
                 }
-            }         
+            }
 
         } else {
             var h2 = document.createElement('h2');
@@ -705,10 +705,10 @@ async function outputSubraces(result) {
 }
 
 // /ability-scores/"
-async function outputAbilityScores(result) { 
+async function outputAbilityScores(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -724,7 +724,7 @@ async function outputAbilityScores(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
@@ -735,7 +735,7 @@ async function outputAbilityScores(result) {
                 }
                 if (skill) {
                     var p = document.createElement('p');
-                    p.textContent =  "Skills: " + skill;
+                    p.textContent = "Skills: " + skill;
                     resultDiv.appendChild(p);
                 }
             }
@@ -752,10 +752,10 @@ async function outputAbilityScores(result) {
 
 
 //"/alignments/",
-async function outputAlignments(result) { 
+async function outputAlignments(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -782,10 +782,10 @@ async function outputAlignments(result) {
 
 //"/backgrounds/",
 //just acolytes in the srd - not getting too much for this one
-async function outputBackgrounds(result) { 
+async function outputBackgrounds(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -801,7 +801,7 @@ async function outputBackgrounds(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
@@ -816,10 +816,10 @@ async function outputBackgrounds(result) {
 }
 
 //"/conditions/",
-async function outputConditions(result) { 
+async function outputConditions(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -835,7 +835,7 @@ async function outputConditions(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
@@ -851,10 +851,10 @@ async function outputConditions(result) {
 
 
 //"/damage-types/",
-async function outputDamageTypes(result) { 
+async function outputDamageTypes(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -870,7 +870,7 @@ async function outputDamageTypes(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
@@ -898,7 +898,7 @@ async function outputEquipment(result) {
             var h2 = document.createElement('h2');
             h2.textContent = data.name;
             resultDiv.appendChild(h2);
-            if (data.equipment_category.index == "weapon"){
+            if (data.equipment_category.index == "weapon") {
                 var div = document.createElement('div');
                 var equip = data.equipment_category;
                 if (equip.name) {
@@ -920,27 +920,27 @@ async function outputEquipment(result) {
                     var span = document.createElement('span');
                     span.textContent = "Normal Throw range: " + data.throw_range.normal + " | ";
                     span.textContent += "Long Throw range: " + data.throw_range.long + " | ";
-                    div.appendChild(span);sylvan
+                    div.appendChild(span); sylvan
                 }
                 if (data.damage) {
                     var span = document.createElement('span');
                     span.textContent = "Damage: " + data.damage.damage_dice + " " + data.damage.damage_type.name + " | ";
                     div.appendChild(span);
                 }
-                
+
                 resultDiv.appendChild(div);
             }
-            if (data.equipment_category.index == "armor"){
+            if (data.equipment_category.index == "armor") {
                 var div = document.createElement('div');
-                if(data.armor_category){
-                var p = document.createElement('p');
-                p.textContent = "Armor category: " + data.armor_category;
-                resultDiv.appendChild(p);
+                if (data.armor_category) {
+                    var p = document.createElement('p');
+                    p.textContent = "Armor category: " + data.armor_category;
+                    resultDiv.appendChild(p);
                 }
-                if (data.armor_class){
+                if (data.armor_class) {
                     var span = document.createElement('span');
                     span.textContent = "Base: " + data.armor_class.base;
-                    if(data.armor_class.dex_bonus)
+                    if (data.armor_class.dex_bonus)
                         span.textContent += " + Dex modifier";
                     if (data.str_minimum > 0)
                         span.textContent += " | Str minimum: " + data.str_minimum;
@@ -958,20 +958,20 @@ async function outputEquipment(result) {
                 }
                 if (descrip) {
                     var p = document.createElement('p');
-                    p.textContent =  descrip;
+                    p.textContent = descrip;
                     resultDiv.appendChild(p);
                 }
             }
-            if(data.cost){
+            if (data.cost) {
                 var p = document.createElement('p');
                 p.textContent = "Cost: " + data.cost.quantity + data.cost.unit;
                 resultDiv.appendChild(p);
             }
-            if (data.weight){
+            if (data.weight) {
                 var p = document.createElement('p');
                 p.textContent = "Weight: " + data.weight + "lbs";
                 resultDiv.appendChild(p);
-            }           
+            }
 
         } else {
             var h2 = document.createElement('h2');
@@ -986,10 +986,10 @@ async function outputEquipment(result) {
 
 //"/languages/",
 
-async function outputLanguages(result) { 
+async function outputLanguages(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); 
+        const data = await response.json();
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -1005,11 +1005,11 @@ async function outputLanguages(result) {
                 }
                 if (typ) {
                     var p = document.createElement('p');
-                    p.textContent =  "Typical speakers: " + typ;
+                    p.textContent = "Typical speakers: " + typ;
                     resultDiv.appendChild(p);
                 }
             }
-            if (data.desc){
+            if (data.desc) {
                 var p = document.createElement('p');
                 p.textContent = data.desc;
                 resultDiv.appendChild(p);
@@ -1040,7 +1040,7 @@ async function outputMagicItems(result) {
             var h2 = document.createElement('h2');
             h2.textContent = data.name;
             resultDiv.appendChild(h2);
-            if (data.equipment_category.index == "weapon"){
+            if (data.equipment_category.index == "weapon") {
                 var div = document.createElement('div');
                 var equip = data.equipment_category;
                 if (equip.name) {
@@ -1062,27 +1062,26 @@ async function outputMagicItems(result) {
                     var span = document.createElement('span');
                     span.textContent = "Normal Throw range: " + data.throw_range.normal + " | ";
                     span.textContent += "Long Throw range: " + data.throw_range.long + " | ";
-                    div.appendChild(span);sylvan
+                    div.appendChild(span); sylvan
                 }
                 if (data.damage) {
                     var span = document.createElement('span');
                     span.textContent = "Damage: " + data.damage.damage_dice + " " + data.damage.damage_type.name + " | ";
                     div.appendChild(span);
                 }
-                
                 resultDiv.appendChild(div);
             }
-            if (data.equipment_category.index == "armor"){
+            if (data.equipment_category.index == "armor") {
                 var div = document.createElement('div');
-                if(data.armor_category){
-                var p = document.createElement('p');
-                p.textContent = "Armor category: " + data.armor_category;
-                resultDiv.appendChild(p);
+                if (data.armor_category) {
+                    var p = document.createElement('p');
+                    p.textContent = "Armor category: " + data.armor_category;
+                    resultDiv.appendChild(p);
                 }
-                if (data.armor_class){
+                if (data.armor_class) {
                     var span = document.createElement('span');
                     span.textContent = "Base: " + data.armor_class.base;
-                    if(data.armor_class.dex_bonus)
+                    if (data.armor_class.dex_bonus)
                         span.textContent += " + Dex modifier";
                     if (data.str_minimum > 0)
                         span.textContent += " | Str minimum: " + data.str_minimum;
@@ -1096,20 +1095,20 @@ async function outputMagicItems(result) {
             if (data.desc) {
                 for (var i = 0; i < data.desc.length; i++) {
                     var p = document.createElement('p');
-                    p.textContent =  data.desc[i];
+                    p.textContent = data.desc[i];
                     resultDiv.appendChild(p);
                 }
             }
-            if(data.cost){
+            if (data.cost) {
                 var p = document.createElement('p');
                 p.textContent = "Cost: " + data.cost.quantity + data.cost.unit;
                 resultDiv.appendChild(p);
             }
-            if (data.weight){
+            if (data.weight) {
                 var p = document.createElement('p');
                 p.textContent = "Weight: " + data.weight + "lbs";
                 resultDiv.appendChild(p);
-            }           
+            }
 
         } else {
             var h2 = document.createElement('h2');
@@ -1119,11 +1118,228 @@ async function outputMagicItems(result) {
     } catch (error) {
         console.error('Error:', error);
     }
-
 }
 
 //"/magic-schools/",
+
+async function outputMagicSchools(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) { //full_name because name is e.g. cha, wis, con
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                var p = document.createElement('p');
+                p.textContent = data.desc;
+                resultDiv.appendChild(p);
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 //"/monsters/",
+
+async function outputMonsters(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            var div = document.createElement('div');
+            if (data.size) {
+                var span = document.createElement('span');
+                span.textContent = "Size: " + data.size + " | ";
+                div.appendChild(span);
+            }
+            if (data.type) {
+                var span = document.createElement('span');
+                span.textContent = "Type: " + data.type + " | ";
+                div.appendChild(span);
+            }
+            if (data.subtype) {
+                var span = document.createElement('span');
+                span.textContent = "Subtype: " + data.subtype + " | ";
+                div.appendChild(span);
+            }
+            if (data.alignment && data.alignment != "any alignment") {
+                var span = document.createElement('span');
+                span.textContent = "Alignment: " + data.alignment + " | ";
+                div.appendChild(span);
+            }
+            if (data.armor_class) {
+                var span = document.createElement('span');
+                span.textContent = "AC: " + data.armor_class[0].value + " (" + data.armor_class[0].type + ") | ";
+                div.appendChild(span);
+            }
+            if (data.hit_points && data.hit_dice) {
+                var span = document.createElement('span');
+                span.textContent = "HP: " + data.hit_points + " (Hit Die: " + data.hit_dice + ") | ";
+                div.appendChild(span);
+            }
+            if (data.speed.walk) {
+                var span = document.createElement('span');
+                span.textContent = "Speed: " + data.speed.walk + " | ";
+                div.appendChild(span);
+            }
+            if (data.speed.fly) {
+                var span = document.createElement('span');
+                span.textContent = "Fly speed: " + data.speed.fly + " | ";
+                div.appendChild(span);
+            }
+            if (data.speed.swim) {
+                var span = document.createElement('span');
+                span.textContent = "Swim speed: " + data.speed.swim + " | ";
+                div.appendChild(span);
+            }
+            if (data.senses.passive_perception) {
+                var span = document.createElement('span');
+                span.textContent = "Passive perception: " + data.senses.passive_perception + " | ";
+                div.appendChild(span);
+            }
+            if (data.senses.darkvision) {
+                var span = document.createElement('span');
+                span.textContent = "Darkvision: " + data.senses.darkvision + " | ";
+                div.appendChild(span);
+            }
+            if (data.languages) {
+                var span = document.createElement('span');
+                span.textContent = "Language: " + data.languages + " | ";
+                div.appendChild(span);
+            }
+            if (data.challenge_rating) {
+                var span = document.createElement('span');
+                span.textContent = "CR: " + data.challenge_rating + " | ";
+                div.appendChild(span);
+            }
+            if (data.proficiency_bonus) {
+                var span = document.createElement('span');
+                span.textContent = "Prof. Bonus: " + data.proficiency_bonus + " | ";
+                div.appendChild(span);
+            }
+            resultDiv.appendChild(div);
+            if (data.strength && data.dexterity && data.constitution) {
+                var p = document.createElement('p');
+                p.textContent = "Str: " + data.strength + " Dex: " + data.dexterity + " Con: " + data.constitution;
+                resultDiv.appendChild(p);
+            }
+            if (data.intelligence && data.wisdom && data.charisma) {
+                var p = document.createElement('p');
+                p.textContent = "Wis: " + data.wisdom + " Cha: " + data.charisma + " Int: " + data.intelligence;
+                resultDiv.appendChild(p);
+            }
+            if (data.proficiencies && data.proficiencies != []) {
+                if (data.proficiencies[0] &&data.proficiencies[0].value && data.proficiencies[0].proficiency) {
+                    let pro = '';
+                    for (var i = 0; i < data.proficiencies.length; i++) {
+                        pro += "+" + data.proficiencies[i].value + " " + data.proficiencies[i].proficiency.name + " | ";
+                    }
+                    if (pro) {
+                        var p = document.createElement('p');
+                        p.textContent = "Proficiencies: " + pro;
+                        resultDiv.appendChild(p);
+                    }
+                }
+            }
+            if (data.special_abilities && data.special_abilities != []) {
+                if (data.special_abilities[0] &&data.special_abilities[0].name) {
+                    for (var i = 0; i < data.special_abilities.length; i++) {
+                        var p = document.createElement('p');
+                        let spec = data.special_abilities[i].name + ": " + data.special_abilities[i].desc;
+                        p.textContent = spec;
+                        resultDiv.appendChild(p);
+                    }
+                }
+            }
+            if (data.actions && data.actions != []) {
+                if (data.actions[0] &&data.actions[0].name) {
+                    for (var i = 0; i < data.actions.length; i++) {
+                        var p = document.createElement('p');
+                        let spec = data.actions[i].name + ": " + data.actions[i].desc;
+                        p.textContent = spec;
+                        resultDiv.appendChild(p);
+                    }
+                }
+            }
+            if (data.damage_vulnerabilities) {
+                let immu = '';
+                for (var i = 0; i < data.damage_vulnerabilities.length; i++) {
+                    immu += data.damage_vulnerabilities[i] + " | ";
+                }
+                if (immu) {
+                    var p = document.createElement('p');
+                    p.textContent = "Damage vulnerabilities: " + immu;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.damage_resistances) {
+                let immu = '';
+                for (var i = 0; i < data.damage_resistances.length; i++) {
+                    immu += data.damage_resistances[i] + " | ";
+                }
+                if (immu) {
+                    var p = document.createElement('p');
+                    p.textContent = "Damage resistances: " + immu;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.damage_immunities) {
+                let immu = '';
+                for (var i = 0; i < data.damage_immunities.length; i++) {
+                    immu += data.damage_immunities[i] + " | ";
+                }
+                if (immu) {
+                    var p = document.createElement('p');
+                    p.textContent = "Damage immunities: " + immu;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.condition_immunities) {
+                let immu = '';
+                for (var i = 0; i < data.condition_immunities.length; i++) {
+                    immu += data.condition_immunities[i].name + " | ";
+                }
+                if (immu) {
+                    var p = document.createElement('p');
+                    p.textContent = "Condition Immunities: " + immu;
+                    resultDiv.appendChild(p);
+                }
+            }            
+            if (data.desc) {
+                var p = document.createElement('p');
+                p.textContent = data.desc;
+                resultDiv.appendChild(p);
+
+            }
+
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
 //"/proficiencies/",
 //"/rule-sections/",
 //"/rules/",
