@@ -506,6 +506,187 @@ async function outputTraits(result) {
 
 }
 
+//"/races/",
+
+async function outputRaces(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); //class isn't allowed as a var name
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                var p = document.createElement('p');
+                p.textContent = data.desc;
+                resultDiv.appendChild(p);
+            }
+            if (data.higher_level) {
+                var p = document.createElement('p');
+                p.textContent = data.higher_level[0];
+                resultDiv.appendChild(p);
+            }
+            var div = document.createElement('div');
+
+            if (data.speed) {
+                var span = document.createElement('span');
+                span.textContent = "Speed: " + data.speed + "ft | ";
+                div.appendChild(span);
+            }
+            if (data.size) {
+                var span = document.createElement('span');
+                span.textContent = "Size: " + data.size + " | ";
+                div.appendChild(span);
+            }
+            if (data.ability_bonuses) {
+                let bonuses = '';
+                for (var i = 0; i < data.ability_bonuses.length; i++) {
+                    bonuses += data.ability_bonuses[i].ability_score.name + " +" + data.ability_bonuses[i].bonus + " ";
+                }
+                if (bonuses) {
+                    var span = document.createElement('span');
+                    span.textContent = "Bonuses: " + bonuses + " | "; //to get the line breaks
+                    div.appendChild(span);
+                }
+            }
+            resultDiv.appendChild(div);
+            if (data.languages) {
+                let lang = '';
+                for (var i = 0; i < data.languages.length; i++) {
+                    lang += data.languages[i].name + " | ";
+                }
+                if (lang) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Languages: " + lang;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.alignment) {
+                var p = document.createElement('p');
+                p.textContent = data.alignment;
+                resultDiv.appendChild(p);
+            }
+
+            if (data.age) {
+                var p = document.createElement('p');
+                p.textContent = data.age;
+                resultDiv.appendChild(p);
+            }
+            if (data.traits) {
+                let trt = '';
+                for (var i = 0; i < data.traits.length; i++) {
+                    trt += data.traits[i].name + " | ";
+                }
+                if (trt) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Traits: " + trt;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.subraces) {
+                let sbr = '';
+                for (var i = 0; i < data.subraces.length; i++) {
+                    sbr += data.subraces[i].name + " | ";
+                }
+                if (sbr) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Subraces: " + sbr;
+                    resultDiv.appendChild(p);
+                }
+            }
+            
+
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
+//"/subraces/",
+async function outputSubraces(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); //class isn't allowed as a var name
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                var p = document.createElement('p');
+                p.textContent = data.desc;
+                resultDiv.appendChild(p);
+            }
+            
+            if (data.language_options) {
+                let lang = '';
+                for (var i = 0; i < data.language_options.from.options.length; i++) {
+                    lang += data.language_options.from.options[i].item.name + " | "; // this_is_fine
+                }
+                if (lang) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Languages: Choose " + data.language_options.choose + " from " + lang;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.racial_traits) {
+                let trt = '';
+                for (var i = 0; i < data.racial_traits.length; i++) {
+                    trt += data.racial_traits[i].name + " | "; // this_is_fine
+                }
+                if (trt) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Traits: " + trt;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.starting_proficiencies) {
+                let strt = '';
+                for (var i = 0; i < data.starting_proficiencies.length; i++) {
+                    strt += data.starting_proficiencies[i].name + " | "; 
+                }
+                if (strt) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Proficiencies: " + strt;
+                    resultDiv.appendChild(p);
+                }
+            }
+            if (data.ability_bonuses) {
+                let abl = '';
+                for (var i = 0; i < data.ability_bonuses.length; i++) {
+                    abl += "+" + data.ability_bonuses[i].bonus + " to " + data.ability_bonuses[i].ability_score.name + " | "; 
+                }
+                if (abl) {
+                    var p = document.createElement('p');
+                    p.textContent =  "Ability bonus: " + abl;
+                    resultDiv.appendChild(p);
+                }
+            }         
+
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
+
 // /ability-scores/"
 //"/alignments/",
 //"/backgrounds/",
@@ -518,7 +699,6 @@ async function outputTraits(result) {
 //"/magic-schools/",
 //"/monsters/",
 //"/proficiencies/",
-//"/races/",
 //"/rule-sections/",
 //"/rules/",
 //"/skills/",
