@@ -1130,7 +1130,7 @@ async function outputMagicSchools(result) {
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
         }
-        if (data.name) { //full_name because name is e.g. cha, wis, con
+        if (data.name) {
             var h2 = document.createElement('h2');
             h2.textContent = data.name;
             resultDiv.appendChild(h2);
@@ -1246,7 +1246,7 @@ async function outputMonsters(result) {
                 resultDiv.appendChild(p);
             }
             if (data.proficiencies && data.proficiencies != []) {
-                if (data.proficiencies[0] &&data.proficiencies[0].value && data.proficiencies[0].proficiency) {
+                if (data.proficiencies[0] && data.proficiencies[0].value && data.proficiencies[0].proficiency) {
                     let pro = '';
                     for (var i = 0; i < data.proficiencies.length; i++) {
                         pro += "+" + data.proficiencies[i].value + " " + data.proficiencies[i].proficiency.name + " | ";
@@ -1259,7 +1259,7 @@ async function outputMonsters(result) {
                 }
             }
             if (data.special_abilities && data.special_abilities != []) {
-                if (data.special_abilities[0] &&data.special_abilities[0].name) {
+                if (data.special_abilities[0] && data.special_abilities[0].name) {
                     for (var i = 0; i < data.special_abilities.length; i++) {
                         var p = document.createElement('p');
                         let spec = data.special_abilities[i].name + ": " + data.special_abilities[i].desc;
@@ -1269,7 +1269,7 @@ async function outputMonsters(result) {
                 }
             }
             if (data.actions && data.actions != []) {
-                if (data.actions[0] &&data.actions[0].name) {
+                if (data.actions[0] && data.actions[0].name) {
                     for (var i = 0; i < data.actions.length; i++) {
                         var p = document.createElement('p');
                         let spec = data.actions[i].name + ": " + data.actions[i].desc;
@@ -1321,7 +1321,7 @@ async function outputMonsters(result) {
                     p.textContent = "Condition Immunities: " + immu;
                     resultDiv.appendChild(p);
                 }
-            }            
+            }
             if (data.desc) {
                 var p = document.createElement('p');
                 p.textContent = data.desc;
@@ -1340,10 +1340,166 @@ async function outputMonsters(result) {
 }
 
 
-//"/proficiencies/",
+//"/proficiencies/", //removed as no need
+
+
 //"/rule-sections/",
+async function outputRuleSections(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                var descArray = data.desc.split("\n");
+                for (var i = 0; i < descArray.length; i++) {
+                    if (descArray[i].startsWith('#')) {
+                        var h3 = document.createElement('h3');
+                        h3.textContent = descArray[i].replace(/^#+\s*/, ''); //formatted weirdly on the api, so turning the ###'s into h3's
+                        resultDiv.appendChild(h3);
+                    } else {
+                        var p = document.createElement('p');
+                        p.textContent = descArray[i];
+                        resultDiv.appendChild(p);
+                    }
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(h2);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
+
+
 //"/rules/",
+//removed as it's just an index for rule-sections
+
 //"/skills/",
+async function outputSkills(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc) {
+                let descrip = '';
+                for (var i = 0; i < data.desc.length; i++) {
+                    descrip += data.desc[i] + " ";
+                }
+                if (descrip) {
+                    var p = document.createElement('p');
+                    p.textContent = descrip;
+                    resultDiv.appendChild(p);
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+
 //"/subclasses/",
-//"/subraces/",
+
+async function outputSubclasses(result) { //code gore
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json(); //class isn't allowed as a var name
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.subclass_flavor) {
+                var h4 = document.createElement('h4');
+                h4.textContent = "Subclass flavor: " + data.subclass_flavor;
+                resultDiv.appendChild(h4);
+            }
+            if (data.desc && data.desc[0]) {
+                for (var i = 0; i < data.desc.length; i++) {
+                    var p = document.createElement('p');
+                    p.textContent = data.desc[i];
+                    resultDiv.appendChild(p)
+                }
+            }
+            if (data.spells && data.spells[0] && data.spells[0].spell) {
+                var h3 = document.createElement('h3');
+                h3.textContent = "Spells";
+                resultDiv.appendChild(h3);
+                for (var i = 0; i < data.spells.length; i++) {
+                    let spl = data.spells[i].spell.name;
+                    if (data.spells[i].prerequisites && data.spells[i].prerequisites[0]) {
+                        spl += " | Gained at level: ";
+                        for (var x = 0; x < data.spells[i].prerequisites.length; x++) {
+                            spl += data.spells[i].prerequisites[x].name;
+                        }
+                    }
+                    var p = document.createElement('p');
+                    p.textContent = spl;
+                    resultDiv.appendChild(p);
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+
+}
+
 //"/weapon-properties/"
+
+async function outputWeaponProperties(result) {
+    try {
+        const response = await fetch('https://www.dnd5eapi.co' + result);
+        const data = await response.json();
+        var resultDiv = document.getElementById('result');
+        while (resultDiv.firstChild) {
+            resultDiv.removeChild(resultDiv.firstChild);
+        }
+        if (data.name) {
+            var h2 = document.createElement('h2');
+            h2.textContent = data.name;
+            resultDiv.appendChild(h2);
+            if (data.desc && data.desc[0]) {
+                for (var i =0; i < data.desc.length; i++){
+                    var p = document.createElement('p');
+                p.textContent = data.desc[i];
+                resultDiv.appendChild(p);
+                }
+            }
+        } else {
+            var h2 = document.createElement('h2');
+            h2.textContent = "Item not found";
+            resultDiv.appendChild(p);
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
