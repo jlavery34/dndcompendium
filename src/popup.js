@@ -29,6 +29,7 @@ document.getElementById('submit').addEventListener('click', async function () {
     var name = document.getElementById('search').value.replace(/ /g, '-'); //replaces any spaces with hyphens for the urls
     var query = name.toLowerCase(); //convert to lower case to match the json
 
+
     //hard-coding some corrections for search mistakes 
     //each of these are stored by their shorthand name, so must convert a search exactly of the longhand name to shorthand
     if (query == "charisma")
@@ -50,36 +51,56 @@ document.getElementById('submit').addEventListener('click', async function () {
         query = "paralyzed";
 
     let regex = new RegExp("^/api/.*/" + query + "$"); //regexp to match with the urls e.g. it'll be api/(any endpoint)/(user query) for a match
-    var result = await findMatch(regex) //find an exact match with the regex
+    var results = await findAllMatches(regex) //find all matches with the regex
 
-
-    if (result) { //if there was an exact match e.g. the user entered bard 
-        let type = await getType(result); //find the endpoint it belongs to so we know which sub-endpoints to display for the user
+    if (results.length == 1) { //if there was exactly one match
+        let type = await getType(results[0]); //find the endpoint it belongs to so we know which sub-endpoints to display for the user
         console.log(type);
-        //then we will call each function to display a result: TODO
-        sortResult(result, type); //sort the result with its type
-    }
-    else { //no exact match, lets find something that at least contains the user's query
+        sortResult(results[0], type); //sort the result with its type
+    } else if (results.length > 1) { //if there was more than one match
+        createButtons(results); //create buttons for the user to select which match to go with
+    } else { //no exact match, lets find something that at least contains the user's query
         result = await findContains(query);
         if (result) {
             let type = await getType(result);
             console.log(type);
             sortResult(result, type);
-        }
-        else { //let the user know that no match was found
+        } else { //let the user know that no match was found
             var resultDiv = document.getElementById('result');
             resultDiv.innerText = '';
             var h2 = document.createTextNode("No result found");
             resultDiv.appendChild(h2);
         }
-
     }
 });
 
-/*var resultDiv = document.getElementById('result');
-resultDiv.innerText = '';
-var h2 = document.createTextNode(result);
-resultDiv.appendChild(h2);*/
+function createButtons(matches) {
+
+    document.getElementById('result').innerHTML = '';
+    let buttonContainer = document.getElementById('buttonContainer');
+    buttonContainer = document.createElement('div');
+    buttonContainer.id = 'buttonContainer';
+    document.body.appendChild(buttonContainer);
+
+    buttonContainer.innerHTML = '';
+    var h4 = document.createElement('h4');
+    h4.textContent = "Did you mean...";
+    buttonContainer.appendChild(h4);
+    for (let match of matches) {
+        let button = document.createElement('button');
+        let parts = match.split('/');
+        let name = parts[parts.length - 1];
+        let endpoint = parts[parts.length - 2];
+        button.innerText = `${name.charAt(0).toUpperCase() + name.slice(1)} (${endpoint})`;
+        button.addEventListener('click', async function () {
+            let type = await getType(match);
+            console.log(type);
+            sortResult(match, type);
+            buttonContainer.innerHTML = '';
+        });
+        buttonContainer.appendChild(button);
+    }
+}
 
 function sortResult(result, type) {
     switch (type) {
@@ -160,21 +181,22 @@ function sortResult(result, type) {
     }
 }
 
-async function findMatch(regex) {
+async function findAllMatches(regex) {
     try {
         return fetch("endpoints/endpoints.json")
             .then(response => response.json())
             .then(urls => {
-                let result = urls.find(str => regex.test(str));
-                console.log(result);
-                return result;
+                let results = urls.filter(str => regex.test(str));
+                console.log(results);
+                return results;
             });
     }
     catch (error) {
         console.log("Error: " + error.message);
-        return "none found";
+        return [];
     }
 }
+
 
 async function findContains(query) {
     try {
@@ -1488,10 +1510,10 @@ async function outputWeaponProperties(result) {
             h2.textContent = data.name;
             resultDiv.appendChild(h2);
             if (data.desc && data.desc[0]) {
-                for (var i =0; i < data.desc.length; i++){
+                for (var i = 0; i < data.desc.length; i++) {
                     var p = document.createElement('p');
-                p.textContent = data.desc[i];
-                resultDiv.appendChild(p);
+                    p.textContent = data.desc[i];
+                    resultDiv.appendChild(p);
                 }
             }
         } else {

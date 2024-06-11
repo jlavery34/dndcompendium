@@ -1,3 +1,17 @@
+- fix hideous css styling
+-- maybe make background colour red and the divs white instead
+
+- also need to remove the last | from any combined divs since it looks messy
+
+
+
+
+
+
+
+
+***DONE***:
+
 - change the users entry to remove spaces
 - search the json for exact matches first (avoid e.g. someone searching bard and getting bardic inspiration back)
 - THEN search the json for anything that contains their query (avoid someone searching bardic inspiration and getting no results since they didn't do bardic inspiration d6 exactly)
@@ -11,4 +25,3 @@
 - need to add a function so if there's an exact match for more than two for the pattern /api/%any%/$query then the user can pick the relevant one based on type
 -- e.g. "did you mean halfling (race) or halfling (language)"
 
-- also need to remove the last | from any combined divs since it looks messy
