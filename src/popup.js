@@ -263,7 +263,7 @@ async function outputClasses(result) { //code gore
                 }
                 if (profs) {
                     var p = document.createElement('p');
-                    p.textContent = "Proficiencies: " + profs; //to get the line breaks
+                    p.textContent = "Proficiencies: " + profs;
                     resultDiv.appendChild(p);
                 }
             }
@@ -310,7 +310,7 @@ async function outputClasses(result) { //code gore
 async function outputSpells(result) {
     try {
         const response = await fetch('https://www.dnd5eapi.co' + result);
-        const data = await response.json(); //class isn't allowed as a var name
+        const data = await response.json(); 
         var resultDiv = document.getElementById('result');
         while (resultDiv.firstChild) {
             resultDiv.removeChild(resultDiv.firstChild);
@@ -374,6 +374,10 @@ async function outputSpells(result) {
             }
 
             resultDiv.appendChild(div);
+            var lastChild = div.lastChild;
+            if (lastChild.textContent.slice(-2) === "| ") {
+                lastChild.textContent = lastChild.textContent.slice(0, -2);
+            }
 
             if (data.concentration == true) {
                 var p = document.createElement('p');
@@ -592,7 +596,7 @@ async function outputRaces(result) {
                         bonuses = bonuses.slice(0, -2);
                     }
                     var span = document.createElement('span');
-                    span.textContent = "Bonuses: " + bonuses + " | "; 
+                    span.textContent = "Bonuses: " + bonuses + " | ";
                     div.appendChild(span);
                 }
             }
@@ -967,9 +971,9 @@ async function outputEquipment(result) {
 
                 resultDiv.appendChild(div);
                 var lastChild = div.lastChild;
-            if (lastChild.textContent.slice(-2) === "| ") {
-                lastChild.textContent = lastChild.textContent.slice(0, -2);
-            }
+                if (lastChild.textContent.slice(-2) === "| ") {
+                    lastChild.textContent = lastChild.textContent.slice(0, -2);
+                }
             }
             if (data.equipment_category.index == "armor") {
                 var div = document.createElement('div');
@@ -990,6 +994,10 @@ async function outputEquipment(result) {
                     div.appendChild(span);
                 }
                 resultDiv.appendChild(div);
+                var lastChild = div.lastChild;
+                if (lastChild.textContent.slice(-2) === "| ") {
+                    lastChild.textContent = lastChild.textContent.slice(0, -2);
+                }
             }
 
             if (data.desc) {
@@ -1111,6 +1119,10 @@ async function outputMagicItems(result) {
                     div.appendChild(span);
                 }
                 resultDiv.appendChild(div);
+                var lastChild = div.lastChild;
+                if (lastChild.textContent.slice(-2) === "| ") {
+                    lastChild.textContent = lastChild.textContent.slice(0, -2);
+                }
             }
             if (data.equipment_category.index == "armor") {
                 var div = document.createElement('div');
@@ -1131,6 +1143,10 @@ async function outputMagicItems(result) {
                     div.appendChild(span);
                 }
                 resultDiv.appendChild(div);
+                var lastChild = div.lastChild;
+                if (lastChild.textContent.slice(-2) === "| ") {
+                    lastChild.textContent = lastChild.textContent.slice(0, -2);
+                }
             }
 
             if (data.desc) {
@@ -1276,6 +1292,10 @@ async function outputMonsters(result) {
                 div.appendChild(span);
             }
             resultDiv.appendChild(div);
+            var lastChild = div.lastChild;
+            if (lastChild.textContent.slice(-2) === "| ") {
+                lastChild.textContent = lastChild.textContent.slice(0, -2);
+            }
             if (data.strength && data.dexterity && data.constitution) {
                 var p = document.createElement('p');
                 p.textContent = "Str: " + data.strength + " Dex: " + data.dexterity + " Con: " + data.constitution;
