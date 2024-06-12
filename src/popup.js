@@ -886,9 +886,7 @@ async function outputConditions(result) {
             if (data.desc) {
                 let descrip = '';
                 for (var i = 0; i < data.desc.length; i++) {
-                    descrip += data.desc[i] + " ";
-                }
-                if (descrip) {
+                    descrip = data.desc[i] + " ";
                     var p = document.createElement('p');
                     p.textContent = descrip;
                     resultDiv.appendChild(p);
