@@ -303,7 +303,6 @@ async function outputClasses(result) { //code gore
     } catch (error) {
         console.error('Error:', error);
     }
-
 }
 
 //spells n sh
@@ -596,7 +595,7 @@ async function outputRaces(result) {
                         bonuses = bonuses.slice(0, -2);
                     }
                     var span = document.createElement('span');
-                    span.textContent = "Bonuses: " + bonuses + " | ";
+                    span.textContent = "Bonuses: " + bonuses;
                     div.appendChild(span);
                 }
             }
@@ -695,6 +694,9 @@ async function outputSubraces(result) {
                     lang += data.language_options.from.options[i].item.name + " | "; // this_is_fine
                 }
                 if (lang) {
+                    if (lang[lang.length - 2] === "|") {
+                        lang = lang.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Languages: Choose " + data.language_options.choose + " from " + lang;
                     resultDiv.appendChild(p);
@@ -706,6 +708,9 @@ async function outputSubraces(result) {
                     trt += data.racial_traits[i].name + " | "; // this_is_fine
                 }
                 if (trt) {
+                    if (trt[trt.length - 2] === "|") {
+                        trt = trt.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Traits: " + trt;
                     resultDiv.appendChild(p);
@@ -717,6 +722,9 @@ async function outputSubraces(result) {
                     strt += data.starting_proficiencies[i].name + " | ";
                 }
                 if (strt) {
+                    if (strt[strt.length - 2] === "|") {
+                        strt = strt.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Proficiencies: " + strt;
                     resultDiv.appendChild(p);
@@ -728,6 +736,9 @@ async function outputSubraces(result) {
                     abl += "+" + data.ability_bonuses[i].bonus + " to " + data.ability_bonuses[i].ability_score.name + " | ";
                 }
                 if (abl) {
+                    if (abl[abl.length - 2] === "|") {
+                        abl = abl.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Ability bonus: " + abl;
                     resultDiv.appendChild(p);
@@ -775,6 +786,9 @@ async function outputAbilityScores(result) {
                     skill += data.skills[i].name + " | ";
                 }
                 if (skill) {
+                    if (skill[skill.length - 2] === "|") {
+                        skill = skill.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Skills: " + skill;
                     resultDiv.appendChild(p);
@@ -1006,6 +1020,9 @@ async function outputEquipment(result) {
                     descrip += data.desc[i] + " | ";
                 }
                 if (descrip) {
+                    if (descrip[descrip.length - 2] === "|") {
+                        descrip = descrip.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = descrip;
                     resultDiv.appendChild(p);
@@ -1313,6 +1330,9 @@ async function outputMonsters(result) {
                         pro += "+" + data.proficiencies[i].value + " " + data.proficiencies[i].proficiency.name + " | ";
                     }
                     if (pro) {
+                        if (pro[pro.length - 2] === "|") {
+                            pro = pro.slice(0, -2);
+                        }
                         var p = document.createElement('p');
                         p.textContent = "Proficiencies: " + pro;
                         resultDiv.appendChild(p);
@@ -1345,6 +1365,9 @@ async function outputMonsters(result) {
                     immu += data.damage_vulnerabilities[i] + " | ";
                 }
                 if (immu) {
+                    if (immu[immu.length - 2] === "|") {
+                        immu = immu.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Damage vulnerabilities: " + immu;
                     resultDiv.appendChild(p);
@@ -1356,6 +1379,9 @@ async function outputMonsters(result) {
                     immu += data.damage_resistances[i] + " | ";
                 }
                 if (immu) {
+                    if (immu[immu.length - 2] === "|") {
+                        immu = immu.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Damage resistances: " + immu;
                     resultDiv.appendChild(p);
@@ -1367,6 +1393,9 @@ async function outputMonsters(result) {
                     immu += data.damage_immunities[i] + " | ";
                 }
                 if (immu) {
+                    if (immu[immu.length - 2] === "|") {
+                        immu = immu.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Damage immunities: " + immu;
                     resultDiv.appendChild(p);
@@ -1378,6 +1407,9 @@ async function outputMonsters(result) {
                     immu += data.condition_immunities[i].name + " | ";
                 }
                 if (immu) {
+                    if (immu[immu.length - 2] === "|") {
+                        immu = immu.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Condition Immunities: " + immu;
                     resultDiv.appendChild(p);
