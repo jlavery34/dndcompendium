@@ -78,9 +78,8 @@ function createButtons(matches) {
 
     document.getElementById('result').innerHTML = '';
     let buttonContainer = document.getElementById('buttonContainer');
-    buttonContainer = document.createElement('div');
-    buttonContainer.id = 'buttonContainer';
-    document.body.appendChild(buttonContainer);
+    //buttonContainer.id = 'buttonContainer';
+    //document.body.appendChild(buttonContainer);
 
     buttonContainer.innerHTML = '';
     var h4 = document.createElement('h4');
@@ -586,21 +585,31 @@ async function outputRaces(result) {
             if (data.ability_bonuses) {
                 let bonuses = '';
                 for (var i = 0; i < data.ability_bonuses.length; i++) {
-                    bonuses += data.ability_bonuses[i].ability_score.name + " +" + data.ability_bonuses[i].bonus + " ";
+                    bonuses += data.ability_bonuses[i].ability_score.name + " +" + data.ability_bonuses[i].bonus + " | ";
                 }
                 if (bonuses) {
+                    if (bonuses[bonuses.length - 2] === "|") {
+                        bonuses = bonuses.slice(0, -2);
+                    }
                     var span = document.createElement('span');
-                    span.textContent = "Bonuses: " + bonuses + " | "; //to get the line breaks
+                    span.textContent = "Bonuses: " + bonuses + " | "; 
                     div.appendChild(span);
                 }
             }
             resultDiv.appendChild(div);
+            var lastChild = div.lastChild;
+            if (lastChild.textContent.slice(-2) === "| ") {
+                lastChild.textContent = lastChild.textContent.slice(0, -2);
+            }
             if (data.languages) {
                 let lang = '';
                 for (var i = 0; i < data.languages.length; i++) {
                     lang += data.languages[i].name + " | ";
                 }
                 if (lang) {
+                    if (lang[lang.length - 2] === "|") {
+                        lang = lang.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Languages: " + lang;
                     resultDiv.appendChild(p);
@@ -623,6 +632,9 @@ async function outputRaces(result) {
                     trt += data.traits[i].name + " | ";
                 }
                 if (trt) {
+                    if (trt[trt.length - 2] === "|") {
+                        trt = trt.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Traits: " + trt;
                     resultDiv.appendChild(p);
@@ -634,6 +646,9 @@ async function outputRaces(result) {
                     sbr += data.subraces[i].name + " | ";
                 }
                 if (sbr) {
+                    if (sbr[sbr.length - 2] === "|") {
+                        sbr = sbr.slice(0, -2);
+                    }
                     var p = document.createElement('p');
                     p.textContent = "Subraces: " + sbr;
                     resultDiv.appendChild(p);
@@ -942,7 +957,7 @@ async function outputEquipment(result) {
                     var span = document.createElement('span');
                     span.textContent = "Normal Throw range: " + data.throw_range.normal + " | ";
                     span.textContent += "Long Throw range: " + data.throw_range.long + " | ";
-                    div.appendChild(span); sylvan
+                    div.appendChild(span);
                 }
                 if (data.damage) {
                     var span = document.createElement('span');
@@ -951,6 +966,10 @@ async function outputEquipment(result) {
                 }
 
                 resultDiv.appendChild(div);
+                var lastChild = div.lastChild;
+            if (lastChild.textContent.slice(-2) === "| ") {
+                lastChild.textContent = lastChild.textContent.slice(0, -2);
+            }
             }
             if (data.equipment_category.index == "armor") {
                 var div = document.createElement('div');

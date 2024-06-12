@@ -1,5 +1,4 @@
-- fix hideous css styling
--- maybe make background colour red and the divs white instead
+
 
 - also need to remove the last | from any combined divs since it looks messy
 
@@ -24,4 +23,6 @@
 ***
 - need to add a function so if there's an exact match for more than two for the pattern /api/%any%/$query then the user can pick the relevant one based on type
 -- e.g. "did you mean halfling (race) or halfling (language)"
+- fix hideous css styling
+-- maybe make background colour red and the divs white instead
 

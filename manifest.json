@@ -7,14 +7,12 @@
     "action": {
       "default_popup": "src/popup.html",
       "default_icon": {
-        "128": "icons/128d20.jpg"
+        "128": "icons/128d20.png"
       }
     },
-    "background": {
-      "scripts": ["src/background.js"]
-    },  
     "icons": {
-      "128": "icons/128d20.jpg"
+      "128": "icons/128d20.png",
+      "48": "icons/48d20.png"
     },
     "browser_specific_settings": {
       "gecko": {
